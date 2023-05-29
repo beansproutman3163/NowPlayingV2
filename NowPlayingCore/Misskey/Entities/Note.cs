@@ -29,7 +29,7 @@ namespace NowPlayingCore.Misskey.Entities
 		public string? ChannelId { get; }
 		public Channel? Channel { get; }
 		public string[]? Mentions { get; }
-
-		/// https://github.com/misskey-dev/misskey/blob/develop/packages/backend/src/core/entities/NoteEntityService.ts#L53
+		public string? Url { get; }
+		public string? Uri { get; }
 	}
 }
