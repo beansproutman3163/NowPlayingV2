@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,13 +7,29 @@ namespace NowPlayingCore.Misskey.Entities
 {
 	public class Role
 	{
-		public string Id { get; } = null!;
-		public string Name { get; } = null!;
-		public string? Color { get; }
-		public string? IconUrl { get; }
-		public string Description { get; } = null!;
-		public bool IsModerator { get; }
-		public bool IsAdministrator { get; }
-		public int DisplayOrder { get; }
+		[JsonProperty] string id = null!;
+		public string Id => id;
+
+		[JsonProperty] string name = null!;
+		public string Name => name;
+
+		[JsonProperty] string? color;
+		public string? Color => color;
+
+		[JsonProperty] string? iconUrl;
+		public string? IconUrl => iconUrl;
+
+		[JsonProperty] string description = null!;
+		public string Description => description;
+
+		[JsonProperty] bool isModerator;
+		public bool IsModerator => isModerator;
+
+		[JsonProperty] bool isAdministrator;
+		public bool IsAdministrator => isAdministrator;
+
+		[JsonProperty] int displayOrder;
+		public int DisplayOrder => displayOrder;
+
 	}
 }

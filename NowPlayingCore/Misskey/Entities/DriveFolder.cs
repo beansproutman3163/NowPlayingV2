@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,9 +7,17 @@ namespace NowPlayingCore.Misskey.Entities
 {
 	public class DriveFolder
 	{
-		public string Id { get; } = null!;
-		public string CreatedAt { get; } = null!; // DateTime
-		public string Name { get; } = null!;
-		public string? ParentId { get; }
+		[JsonProperty] string id => null!;
+		public string Id => id!;
+
+		[JsonProperty] string createdAt = null!;
+		public string CreatedAt => createdAt;   //TODO: DateTime
+
+		[JsonProperty] string name = null!;
+		public string Name => name;
+
+		[JsonProperty] string? parentId;
+		public string? ParentId => parentId;
+
 	}
 }

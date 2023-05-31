@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,14 +7,14 @@ namespace NowPlayingCore.Misskey.Entities
 {
 	public class Poll
 	{
-		public bool Multiple { get; }
-		public string ExpiresAt { get; } = null!; // DateTime
-		public class Choice
-		{
-			public string Text { get; } = null!;
-			public int Votes { get; }
-			public bool IsVoted { get; }
-		}
-		public Choice[] Choices { get; } = null!;
+		[JsonProperty] bool multiple;
+		public bool Multiple => multiple;
+
+		[JsonProperty] string expiresAt = null!;	//TODO: DateTime
+		public string ExpiresAt => expiresAt;
+
+		[JsonProperty] List<PollChoice> choices = null!;
+		public List<PollChoice> Choices => choices;
+
 	}
 }

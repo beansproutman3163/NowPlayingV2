@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,11 @@ namespace NowPlayingCore.Misskey.Entities
 {
 	public class AuthCheckResponse : Response
 	{
-		public string? Token { get; }
-		public User? User { get; }
+		[JsonProperty] string? token;
+		public string? Token => token;
+
+		[JsonProperty] UserDetailed? user;
+		public UserDetailed? User => user;
+
 	}
 }
