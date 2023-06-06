@@ -121,6 +121,11 @@ namespace NowPlayingV2.UI
             (new UI.MastodonOAuthWindow()).ShowDialog();
         }
 
+        private void OnAddMisskeyAccountClick(object sender, RoutedEventArgs e)
+        {
+            (new UI.MisskeyAuthWindow()).ShowDialog();
+        }
+
         private void HintOKButton(object sender, RoutedEventArgs e)
         {
             HintBoxGrid.Visibility = Visibility.Hidden;

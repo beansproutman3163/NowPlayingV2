@@ -15,7 +15,14 @@
     </AssemblyAttribute>
   </ItemGroup>
   <ItemGroup>
+    <None Remove="UI\NoImage.png" />
     <None Remove="UI\NotifyIcon\nowplayingv2.ico" />
+    <None Remove="UI\Resources\NoImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UI\Resources\NoImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CoreTweet">
@@ -184,6 +191,7 @@
     <ProjectReference Include="..\NowPlayingCore\NowPlayingCore.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\NoImage.png" />
     <Resource Include="UI\NotifyIcon\nowplayingv2.ico" />
   </ItemGroup>
   <ItemGroup>
