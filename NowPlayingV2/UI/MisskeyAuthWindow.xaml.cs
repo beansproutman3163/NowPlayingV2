@@ -27,7 +27,6 @@ namespace NowPlayingV2.UI
         public MisskeyAuthWindow()
         {
             InitializeComponent();
-            panelSavedAccount.Visibility = Visibility.Hidden;
 		}
 
         private async void OnOpenMiAuthPageAsync(object sender, RoutedEventArgs e)
@@ -129,7 +128,7 @@ namespace NowPlayingV2.UI
 				var container = new MisskeyAccount(new MisskeyAccountInfo() {
                     UserName = user.UserName,
                     HostName = this.hostName,
-                    DisplayName = user.Name ?? "",
+                    DisplayName = user.Name ?? user.UserName,
                     Token = resAuth.Token!
                 });
 				await container.UpdateCache();
