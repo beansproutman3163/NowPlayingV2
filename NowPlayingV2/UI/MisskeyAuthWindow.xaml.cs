@@ -1,10 +1,12 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
+using NowPlayingCore.Core;
 using NowPlayingCore.Misskey.Entities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -79,19 +81,25 @@ namespace NowPlayingV2.UI
                         $"認証リクエストに失敗しました。\n\n{res.StatusCode} : {res.ReasonPhrase}");
                     return;
                 }
-
-				var resAuth = JsonConvert.DeserializeObject<AuthCheckResponse>(await res.Content.ReadAsStringAsync());
                 
-				this.panelSavedAccount.DataContext = new {
-					DisplayName = resAuth.User?.Name,
-					UserName = $"@{resAuth.User?.UserName}@{this.hostName}",
-					Notes = resAuth.User?.NotesCount,
-					Following = resAuth.User?.FollowingCount,
-					Followers = resAuth.User?.FollowersCount
-				};
-                if (resAuth.User?.AvatarUrl != null) {
+				var resAuth = JsonConvert.DeserializeObject<AuthCheckResponse>(await res.Content.ReadAsStringAsync());
+				if (!resAuth.Ok) {
+					await this.ShowMessageAsync("エラー",
+						$"認証が許可されませんでした。\nお使いのMisskeyアカウントで「なうぷれV2」のアプリケーション認証が許可されているかご確認ください。");
+					return;
+				}
 
-                    var avatarUriWebp = new Uri(resAuth.User.AvatarUrl);
+                UserDetailed user = resAuth.User!;
+				this.panelSavedAccount.DataContext = new {
+					DisplayName = user.Name,
+					UserName = $"@{user.UserName}@{this.hostName}",
+					Notes = user.NotesCount,
+					Following = user.FollowingCount,
+					Followers = user.FollowersCount
+				};
+                if (user.AvatarUrl != null) {
+
+                    var avatarUriWebp = new Uri(user.AvatarUrl);
                     var queryParams = new Dictionary<string, string>();
                     foreach (var query in avatarUriWebp.Query[1..].Split('&')) {
                         var kv = query.Split('=');
@@ -118,13 +126,16 @@ namespace NowPlayingV2.UI
 					}
                 }
 
-				if (!resAuth.Ok) {
-					await this.ShowMessageAsync("エラー",
-						$"認証が許可されませんでした。\nお使いのMisskeyアカウントで「なうぷれV2」のアプリケーション認証が許可されているかご確認ください。");
-                    return;
-				}
+				var container = new MisskeyAccount(new MisskeyAccountInfo() {
+                    UserName = user.UserName,
+                    HostName = this.hostName,
+                    DisplayName = user.Name ?? "",
+                    Token = resAuth.Token!
+                });
+				await container.UpdateCache();
+				Core.ConfigStore.StaticConfig.accountList.Add(container);
 
-                this.panelSavedAccount.Visibility = Visibility.Visible;
+				this.panelSavedAccount.Visibility = Visibility.Visible;
 			}
             catch (HttpRequestException ex) {
 				await this.ShowMessageAsync("ネットワークエラー",
