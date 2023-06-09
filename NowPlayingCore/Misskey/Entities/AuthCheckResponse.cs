@@ -5,8 +5,11 @@ using System.Text;
 
 namespace NowPlayingCore.Misskey.Entities
 {
-	public class AuthCheckResponse : Response
+	public class AuthCheckResponse
 	{
+		[JsonProperty] bool ok;
+		public bool Ok => ok;
+
 		[JsonProperty] string? token;
 		public string? Token => token;
 

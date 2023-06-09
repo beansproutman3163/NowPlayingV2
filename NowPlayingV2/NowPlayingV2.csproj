@@ -191,7 +191,6 @@
     <ProjectReference Include="..\NowPlayingCore\NowPlayingCore.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\NoImage.png" />
     <Resource Include="UI\NotifyIcon\nowplayingv2.ico" />
   </ItemGroup>
   <ItemGroup>
